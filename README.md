@@ -104,6 +104,10 @@ Output: `5411252.xlsx` with columns `Name`, `Date`, `Comment`.
 | Version | 1.0.0 |
 | Tags | `lowyat`, `forum`, `malaysia`, `research`, `analysis`, `consumer-review`, `web-scraping`, `data-extraction` |
 
+## Attribution
+
+Forked from [KennethLeeJE8/datascraping-lowyat](https://github.com/KennethLeeJE8/datascraping-lowyat).
+
 ## License
 
 [MIT](LICENSE)
