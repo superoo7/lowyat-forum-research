@@ -14,8 +14,6 @@ tags:
   - consumer-review
   - web-scraping
   - data-extraction
-required_binaries:
-  - uv
 ---
 
 # Lowyat Forum Research Tool
@@ -37,31 +35,21 @@ End-to-end research pipeline: **Search → Scrape → Analyze**
 
 ### Step 3: Scrape the selected threads
 - The scraper script (`datascraping.py`) should be in the project root
-- This skill requires [uv](https://docs.astral.sh/uv/) — a fast Python package manager. Install it with `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`.
-- Before scraping, ensure dependencies are installed:
-
-```bash
-uv sync
-```
-
-If `uv` is not initialized yet (no `pyproject.toml`):
-
-```bash
-uv init --no-readme
-uv add requests beautifulsoup4 html5lib openpyxl tqdm
-```
-
-Alternatively, if you prefer pip:
+- Install Python dependencies:
 
 ```bash
 pip install requests beautifulsoup4 html5lib openpyxl tqdm
 ```
 
+Or if you have [uv](https://docs.astral.sh/uv/) installed:
+
+```bash
+uv sync
+```
+
 - Run the scraper for each thread:
 
 ```bash
-uv run python datascraping.py <TOPIC_URL>
-# or without uv:
 python datascraping.py <TOPIC_URL>
 ```
 
