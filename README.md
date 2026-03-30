@@ -1,62 +1,106 @@
-# datascraping-lowyat
+# Lowyat Forum Research Tool
 
-This project is a datascraping project that focuses on retreiving data found on a webiste called lowyat forum, a popular Malaysian version of Reddit. 
+A Claude Code skill that lets you research any topic on [Lowyat forum](https://forum.lowyat.net) — Malaysia's largest online community. It searches for relevant threads, scrapes them into Excel files, and analyzes the results.
 
-You will be able to take any number of pages from this website and extract comments that contain keywords, chosen by you, for your personal use. 
+## How It Works
 
-# Data Structure (What the raw data looks like):
-Here is an example of what the site looks like and what data was collected to compose the final output
+```
+User Question → Search Forum → Scrape Threads → Analyze & Summarize
+```
 
-<img width="1079" alt="lowyat2" src="https://user-images.githubusercontent.com/71307669/190864738-83a6820a-8409-4df8-9e02-84404bc01b9b.png">
+1. **Search** — Finds relevant Lowyat forum threads using web search with multiple keyword angles
+2. **Scrape** — Crawls selected threads and saves every post to `.xlsx` files (Name, Date, Comment)
+3. **Analyze** — Reads the scraped data and synthesizes findings into a structured summary
 
-The following fields were collected from the website:
-- Text from messages
-- Page it was collected from, as each page in the thread has a different url
-- The date the message was posted
+## Installation
 
-These were the fields that the client requested to capture as they were crucial to the analysis of their branding.
+### As a Claude Code Skill
 
-# Purpose(Business Goal):
-- To see if there was any obvious trends, both positive and negative, for each project mentioned on the website
-- Determine which projects were getting the most attention on the website
-- To find out which words were most commonly used to describe IOI Properties Group and their projects
-- To find out any specific problem, such as structural defects or , customers have had during their interactions with IOI Properties Group
+Copy the skill folder into your project:
 
-# Data Cleaning
-- Using the Python Package, Beautiful Soup, I extracted the raw HTML from the website
-- I further used Pandas to clean the data, implementing some NLP techniques so I could process it into a format that my clients could extract knowledge from the data collected
+```bash
+cp -r .claude/skills/lowyat-scraper <your-project>/.claude/skills/
+cp datascraping.py <your-project>/
+cp pyproject.toml <your-project>/
+```
 
-The following changes were made to the data:
-- Sentences were split into individual words to look for keywords
-- Unneccessary characters were stripped, such as '""' and '@' and ','
+Then install dependencies:
 
-# Data Analysis
-One of the clients primary objectives with this project was to analyse the specific keywords used to describe IOI Properties Berhad and their property developments, this objective had a big influence over the design of the entire project. 
+```bash
+cd <your-project>
+uv sync
+```
 
-datascraping.py focuses on extracting comments that contain specific keywords, determined by the user, to get a general consensus of the public. 
+### From ClawHub
 
-# .txt files
-To look for specific keywords, a .txt file needs to be added to the directory. This txt file should contain all the keywords you want to capture in the final output itself, the keywords should be on a seperate line each and not have any special characters seperating them. Multiple .txt files can be made to filter for category, for example, the client wanted a file with adjectives only and another file with property names, as these two files answered different objectives. 
+```bash
+claude skill install lowyat-scraper
+```
 
-The package xlrd and xlrswriter was used to read and write to Microsoft Excel files, as this was the preferred application at IOI Properties Group
+### Manual Setup
 
-# How to use this project to extract comments by keywords
-You will need to make the following files:
-- .txt files with keywords
-- add the website URLs to data_scraping file, under all_topics variables
+```bash
+git clone https://github.com/johnson/datascraping-lowyat.git
+cd datascraping-lowyat
+uv sync
+```
 
-# Final Output Format
-## Diagram 1.1
+## Usage
 
-<img width="108" alt="image" src="https://user-images.githubusercontent.com/71307669/190866734-5ed9c62c-6948-486d-baf0-3a14c9b49cff.png">
-Diagram 1.1 shows the count of each keyword in the pages selected by the user
+### With Claude Code (Skill)
 
-## Diagram 1.2
+Just ask Claude to research a topic:
 
-<img width="1095" alt="image" src="https://user-images.githubusercontent.com/71307669/190866810-7ec5d124-603b-4ced-912c-63639a025410.png">
-The Excel file will have tabs named after each keyword in the .txt file, each tab will contain all the comments that the keywords are found in (Diagram 1.2). The corresponding url is also provided for each comment, which was very important for the client, as they needed context for each comment. The keywords that were not found in the comments, the keywords with count 0 in Diagram 1.1, have no tabs as there is nothing to display. 
+```
+> I want to research water heaters on Lowyat forum
+> What do Lowyat users say about Toto toilets?
+> Research mechanical keyboards on LYN
+```
 
-# Future Improvements
-- Have a configuration file so that all the variable information can filled out without having to change the source code
-- Use inputs by terminal to input the website urls and other information needed
+Claude will automatically search, scrape, and analyze.
 
+### Standalone Scraper
+
+```bash
+uv run python datascraping.py https://forum.lowyat.net/topic/5411252
+```
+
+Output: `5411252.xlsx` with columns `Name`, `Date`, `Comment`.
+
+## Scraper Details
+
+- Auto-detects total pages and crawls all of them
+- 20 posts per page, paginated via `/+N` URL suffix
+- Random 0.5–2s delay between requests (respectful scraping)
+- Saves incrementally after each page — safe to interrupt and resume
+- If the `.xlsx` file already exists, appends to it
+
+## Example Output
+
+| Name | Date | Comment |
+|------|------|---------|
+| forumer123 | 15-3-2025, 10:30 AM | I recommend Johnson Suisse for budget... |
+| prouser456 | 15-3-2025, 11:45 AM | Toto is the gold standard but pricey... |
+
+## Tech Stack
+
+- Python 3
+- [requests](https://docs.python-requests.org/) — HTTP requests
+- [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/) + html5lib — HTML parsing
+- [openpyxl](https://openpyxl.readthedocs.io/) — Excel output
+- [tqdm](https://tqdm.github.io/) — Progress bars
+- [uv](https://docs.astral.sh/uv/) — Package management
+
+## ClawHub Metadata
+
+| Field | Value |
+|-------|-------|
+| Slug | `lowyat-forum-research` |
+| Display Name | Lowyat Forum Research & Analysis |
+| Owner | johnson |
+| Version | 1.0.0 |
+| Tags | `lowyat`, `forum`, `malaysia`, `research`, `analysis`, `consumer-review`, `web-scraping`, `data-extraction` |
+
+## License
+
+[MIT](LICENSE)

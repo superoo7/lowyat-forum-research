@@ -1,0 +1,12 @@
+# Output files
+*.xlsx
+
+# Python
+__pycache__/
+.venv/
+
+# OS
+.DS_Store
+
+# Misc
+hello.py
