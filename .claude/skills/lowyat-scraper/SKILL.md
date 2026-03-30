@@ -14,6 +14,8 @@ tags:
   - consumer-review
   - web-scraping
   - data-extraction
+required_binaries:
+  - uv
 ---
 
 # Lowyat Forum Research Tool
@@ -35,6 +37,7 @@ End-to-end research pipeline: **Search → Scrape → Analyze**
 
 ### Step 3: Scrape the selected threads
 - The scraper script (`datascraping.py`) should be in the project root
+- This skill requires [uv](https://docs.astral.sh/uv/) — a fast Python package manager. Install it with `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`.
 - Before scraping, ensure dependencies are installed:
 
 ```bash
@@ -48,14 +51,22 @@ uv init --no-readme
 uv add requests beautifulsoup4 html5lib openpyxl tqdm
 ```
 
+Alternatively, if you prefer pip:
+
+```bash
+pip install requests beautifulsoup4 html5lib openpyxl tqdm
+```
+
 - Run the scraper for each thread:
 
 ```bash
 uv run python datascraping.py <TOPIC_URL>
+# or without uv:
+python datascraping.py <TOPIC_URL>
 ```
 
 - **IMPORTANT**: Do NOT include `/all` or `/+N` suffixes in the URL — just use the base topic URL (e.g. `https://forum.lowyat.net/topic/5411252`)
-- Run multiple scrapes in parallel using `&` and `wait` for speed
+- To scrape multiple threads, run them **sequentially** (one at a time) to be respectful to the server. Only run up to 3 in parallel if the user explicitly asks for speed, using `&` and `wait`
 - Output: `<topic_id>.xlsx` files with columns: `Name`, `Date`, `Comment`
 
 ### Step 4: Analyze the scraped data
@@ -89,3 +100,12 @@ User: "I want to research mechanical keyboards on Lowyat"
 2. Present top threads to user
 3. Scrape selected threads in parallel
 4. Read the xlsx files and provide analysis: popular brands, price ranges, where to buy, common complaints
+
+## Links
+
+- **GitHub**: [github.com/superoo7/lowyat-forum-research](https://github.com/superoo7/lowyat-forum-research)
+- **ClawHub**: [clawhub.ai/superoo7/lowyat-forum-research](https://clawhub.ai/superoo7/lowyat-forum-research)
+
+## Disclaimer
+
+Scraped data contains publicly available usernames, dates, and comments from forum.lowyat.net. This tool is intended for personal research purposes only. Users are responsible for how they store, share, and use the scraped data in compliance with applicable privacy laws and Lowyat forum's terms of service.

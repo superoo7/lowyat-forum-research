@@ -33,9 +33,7 @@ uv sync
 
 ### From ClawHub
 
-```bash
-claude skill install lowyat-scraper
-```
+Install from [clawhub.ai/superoo7/lowyat-forum-research](https://clawhub.ai/superoo7/lowyat-forum-research).
 
 ### Manual Setup
 
@@ -90,6 +88,11 @@ Output: `5411252.xlsx` with columns `Name`, `Date`, `Comment`.
 - [openpyxl](https://openpyxl.readthedocs.io/) — Excel output
 - [tqdm](https://tqdm.github.io/) — Progress bars
 - [uv](https://docs.astral.sh/uv/) — Package management
+
+## Links
+
+- **ClawHub**: [clawhub.ai/superoo7/lowyat-forum-research](https://clawhub.ai/superoo7/lowyat-forum-research)
+- **GitHub**: [github.com/superoo7/lowyat-forum-research](https://github.com/superoo7/lowyat-forum-research)
 
 ## ClawHub Metadata
 
